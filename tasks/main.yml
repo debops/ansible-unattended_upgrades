@@ -2,12 +2,9 @@
 
 - name: Install required packages
   apt:
-    name: '{{ item }}'
+    name: '{{ ( unattended_upgrades__base_packages + unattended_upgrades__packages ) | flatten }}'
     state: 'present'
     install_recommends: False
-  with_flattened:
-    - '{{ unattended_upgrades__base_packages }}'
-    - '{{ unattended_upgrades__packages }}'
   when: unattended_upgrades__enabled | bool
 
 - name: Configure debconf answer
